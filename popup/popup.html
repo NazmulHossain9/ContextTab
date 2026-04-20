@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContextTab</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <img src="../icons/icon32.png" alt="CT" width="22" height="22">
+        <span>ContextTab</span>
+      </div>
+      <button id="btn-sidepanel" title="Open PR Sidebar">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <rect x="3" y="3" width="18" height="18" rx="2"/>
+          <line x1="15" y1="3" x2="15" y2="21"/>
+        </svg>
+      </button>
+    </header>
+
+    <nav class="tab-nav">
+      <button class="tab-btn active" data-tab="groups">Groups</button>
+      <button class="tab-btn" data-tab="sessions">Sessions</button>
+      <button class="tab-btn" data-tab="why">Why?</button>
+      <button class="tab-btn" data-tab="cheatsheet">Cheat Sheet</button>
+    </nav>
+
+    <main>
+      <!-- Groups Tab -->
+      <section id="tab-groups" class="tab-panel active">
+        <div class="panel-toolbar">
+          <span class="panel-title">Tab Groups</span>
+          <button id="btn-autogroup" class="btn-primary">⚡ Auto-group</button>
+        </div>
+        <div id="groups-list" class="list-container">
+          <div class="empty-state">Loading groups…</div>
+        </div>
+      </section>
+
+      <!-- Sessions Tab -->
+      <section id="tab-sessions" class="tab-panel">
+        <div class="session-save-row">
+          <input id="session-name-input" type="text" placeholder="Name this session…" maxlength="50">
+          <button id="btn-save-session" class="btn-primary">Save</button>
+        </div>
+        <div id="sessions-list" class="list-container">
+          <div class="empty-state">No saved sessions yet</div>
+        </div>
+      </section>
+
+      <!-- Why Tab -->
+      <section id="tab-why" class="tab-panel">
+        <p class="panel-hint">Track the intent behind each open tab.</p>
+        <div id="why-list" class="list-container">
+          <div class="empty-state">Loading tabs…</div>
+        </div>
+      </section>
+
+      <!-- Cheat Sheet Tab -->
+      <section id="tab-cheatsheet" class="tab-panel">
+        <p class="panel-hint">Auto-built from docs pages you visit repeatedly.</p>
+        <div id="cheatsheet-list" class="list-container">
+          <div class="empty-state">Visit MDN, DevDocs, or official docs pages to build your cheat sheet.</div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

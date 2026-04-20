@@ -1,0 +1,218 @@
+/* ContextTab content styles */
+
+/* "Why did I open this?" prompt */
+#ct-why-prompt {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2147483647;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #1e1b4b;
+  border: 1px solid #4c1d95;
+  border-radius: 10px;
+  padding: 10px 14px;
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  font-size: 13px;
+  color: #e0e7ff;
+  animation: ct-slide-in 0.2s ease;
+}
+
+@keyframes ct-slide-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.ct-why-icon { font-size: 16px; }
+
+.ct-why-label {
+  white-space: nowrap;
+  color: #c4b5fd;
+  font-weight: 500;
+}
+
+#ct-why-input {
+  background: #312e81;
+  border: 1px solid #5b21b6;
+  border-radius: 6px;
+  color: #e0e7ff;
+  padding: 4px 8px;
+  font-size: 12px;
+  width: 160px;
+  outline: none;
+}
+#ct-why-input:focus { border-color: #7c3aed; }
+#ct-why-input::placeholder { color: #6b7280; }
+
+#ct-why-save {
+  background: #7c3aed;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 4px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 500;
+}
+#ct-why-save:hover { background: #6d28d9; }
+
+#ct-why-dismiss {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  line-height: 1;
+}
+#ct-why-dismiss:hover { color: #e0e7ff; }
+
+/* Stack Overflow copy buttons */
+pre { position: relative; }
+
+.ct-so-copy {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  z-index: 10;
+  background: #7c3aed;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+pre:hover .ct-so-copy { opacity: 1; }
+.ct-so-copy:hover { background: #6d28d9; }
+.ct-so-copy.ct-copied { background: #059669; }
+
+/* Note form overlay */
+#ct-note-overlay {
+  position: absolute;
+  z-index: 2147483646;
+  background: #1e1b4b;
+  border: 1px solid #4c1d95;
+  border-radius: 10px;
+  padding: 12px;
+  width: 320px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  animation: ct-slide-in 0.15s ease;
+}
+
+.ct-note-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c4b5fd;
+}
+
+.ct-note-close {
+  background: none;
+  border: none;
+  color: #6b7280;
+  cursor: pointer;
+  font-size: 14px;
+}
+.ct-note-close:hover { color: #e0e7ff; }
+
+.ct-note-snippet {
+  background: #312e81;
+  border-radius: 5px;
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #a5b4fc;
+  margin-bottom: 8px;
+  font-family: 'SF Mono', 'Cascadia Code', monospace;
+  max-height: 60px;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.ct-note-text {
+  width: 100%;
+  box-sizing: border-box;
+  background: #312e81;
+  border: 1px solid #5b21b6;
+  border-radius: 6px;
+  color: #e0e7ff;
+  font-size: 12px;
+  padding: 6px 8px;
+  resize: vertical;
+  outline: none;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  margin-bottom: 8px;
+}
+.ct-note-text:focus { border-color: #7c3aed; }
+.ct-note-text::placeholder { color: #6b7280; }
+
+.ct-note-save {
+  width: 100%;
+  background: #7c3aed;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  padding: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ct-note-save:hover { background: #6d28d9; }
+
+/* Note markers */
+.ct-note-marker {
+  background: rgba(124, 58, 237, 0.2);
+  border-bottom: 2px solid #7c3aed;
+  cursor: pointer;
+}
+.ct-note-marker:hover { background: rgba(124, 58, 237, 0.35); }
+
+/* Note popup */
+#ct-note-popup {
+  position: absolute;
+  z-index: 2147483645;
+  background: #1e1b4b;
+  border: 1px solid #4c1d95;
+  border-radius: 8px;
+  padding: 10px 12px;
+  width: 260px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+.ct-note-popup-body {
+  font-size: 13px;
+  color: #e0e7ff;
+  margin-bottom: 8px;
+  line-height: 1.5;
+}
+
+.ct-note-popup-actions {
+  display: flex;
+  gap: 6px;
+  justify-content: flex-end;
+}
+
+.ct-note-delete, .ct-note-popup-close {
+  border: none;
+  border-radius: 5px;
+  padding: 3px 8px;
+  font-size: 11px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.ct-note-delete { background: #7f1d1d; color: #fca5a5; }
+.ct-note-delete:hover { background: #991b1b; }
+.ct-note-popup-close { background: #312e81; color: #a5b4fc; }
+.ct-note-popup-close:hover { background: #3730a3; }

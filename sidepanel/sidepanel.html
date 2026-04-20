@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContextTab Sidebar</title>
+  <link rel="stylesheet" href="sidepanel.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="logo">
+        <img src="../icons/icon32.png" alt="CT" width="20" height="20">
+        <span>ContextTab</span>
+      </div>
+      <span id="panel-subtitle" class="subtitle">PR & Issue Tracker</span>
+    </header>
+
+    <div id="main" class="main">
+      <div id="state-idle" class="state-view">
+        <div class="idle-icon">⎇</div>
+        <p>Navigate to a <strong>GitHub</strong> or <strong>GitLab</strong> pull request or issue to see details here.</p>
+        <p class="hint">Works with:<br>github.com/owner/repo/pull/123<br>github.com/owner/repo/issues/123</p>
+      </div>
+
+      <div id="state-loading" class="state-view hidden">
+        <div class="spinner"></div>
+        <p>Fetching PR info…</p>
+      </div>
+
+      <div id="state-error" class="state-view hidden">
+        <div class="error-icon">⚠</div>
+        <p id="error-msg">Could not load PR info. Check your network or try again.</p>
+      </div>
+
+      <div id="state-pr" class="pr-view hidden">
+        <!-- Filled by JS -->
+      </div>
+    </div>
+
+    <!-- Notes panel -->
+    <div id="notes-panel">
+      <div class="notes-header">
+        <span>📌 Page Notes</span>
+        <button id="btn-add-note" class="btn-small">+ Add</button>
+      </div>
+      <div id="notes-list"></div>
+    </div>
+  </div>
+
+  <script src="sidepanel.js"></script>
+</body>
+</html>
