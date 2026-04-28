@@ -454,6 +454,76 @@ main {
 }
 .cheat-note-save:hover { background: var(--primary-hover); }
 
+/* Toolbar actions */
+.toolbar-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+/* AI Group button */
+.btn-ai {
+  background: linear-gradient(135deg, #4f46e5, #7c3aed);
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  transition: opacity 0.15s;
+  white-space: nowrap;
+}
+.btn-ai:hover { opacity: 0.85; }
+.btn-ai:disabled { opacity: 0.5; cursor: default; }
+
+/* API key section */
+.api-key-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.api-key-label {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 6px;
+}
+.api-key-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 5px;
+}
+.api-key-row input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  color: var(--text);
+  font-size: 12px;
+  outline: none;
+  padding: 5px 8px;
+}
+.api-key-row input:focus { border-color: var(--primary); }
+.api-key-row input::placeholder { color: var(--text-dim); }
+.api-key-hint {
+  color: var(--text-dim);
+  font-size: 10.5px;
+}
+.api-key-hint a { color: var(--text-muted); }
+
+/* AI status bar */
+.ai-status {
+  border-radius: 5px;
+  font-size: 11.5px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+}
+.ai-status-info { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+.ai-status-error { background: rgba(239,68,68,0.12); color: #fca5a5; }
+
 /* Group color mapping */
 .dot-blue    { background: #3b82f6; }
 .dot-red     { background: #ef4444; }

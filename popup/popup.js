@@ -46,6 +46,49 @@ document.getElementById('btn-autogroup').addEventListener('click', async () => {
   loadGroups();
 });
 
+// ── AI Group button ──────────────────────────────────────────────────────────
+
+const aiKeySection = document.getElementById('api-key-section');
+const aiStatus     = document.getElementById('ai-status');
+
+async function showAiStatus(text, isError = false) {
+  aiStatus.textContent = text;
+  aiStatus.className = 'ai-status ' + (isError ? 'ai-status-error' : 'ai-status-info');
+  aiStatus.style.display = text ? 'block' : 'none';
+}
+
+document.getElementById('btn-aigroup').addEventListener('click', async () => {
+  const { key } = await msg('GET_GEMINI_KEY');
+  if (!key) {
+    aiKeySection.style.display = aiKeySection.style.display === 'none' ? 'block' : 'none';
+    return;
+  }
+  const btn = document.getElementById('btn-aigroup');
+  btn.textContent = '⏳';
+  btn.disabled = true;
+  showAiStatus('Asking Gemini to group your tabs…');
+  const win = await getCurrentWindow();
+  const result = await msg('AI_GROUP_TABS', { windowId: win.id });
+  btn.textContent = '✨ AI Group';
+  btn.disabled = false;
+  if (result?.ok) {
+    showAiStatus('');
+    loadGroups();
+  } else {
+    showAiStatus(result?.error || 'Something went wrong', true);
+  }
+});
+
+document.getElementById('btn-save-key').addEventListener('click', async () => {
+  const input = document.getElementById('gemini-key-input');
+  const key = input.value.trim();
+  if (!key) return;
+  await msg('SAVE_GEMINI_KEY', { key });
+  aiKeySection.style.display = 'none';
+  input.value = '';
+  showAiStatus('API key saved. Click AI Group to start.');
+});
+
 async function loadGroups() {
   const container = document.getElementById('groups-list');
   const win = await getCurrentWindow();

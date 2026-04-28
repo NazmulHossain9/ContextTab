@@ -367,6 +367,76 @@ async function deleteCheatEntry(id) {
   return { ok: true };
 }
 
+// ── AI tab grouping (Gemini) ─────────────────────────────────────────────────
+
+async function aiGroupTabs(windowId) {
+  const { geminiApiKey } = await chrome.storage.local.get('geminiApiKey');
+  if (!geminiApiKey) return { ok: false, error: 'NO_KEY' };
+
+  const tabs = await chrome.tabs.query({ windowId });
+  const validTabs = tabs.filter(t => t.url && !t.url.startsWith('chrome://') && !t.url.startsWith('about:'));
+  if (!validTabs.length) return { ok: false, error: 'NO_TABS' };
+
+  const tabList = validTabs.map(t => ({ id: t.id, title: t.title || '', url: t.url }));
+
+  const prompt = `Group these browser tabs by content similarity or topic.
+Return ONLY a JSON object where keys are short group names (max 3 words) and values are arrays of numeric tab IDs.
+Every tab ID must appear in exactly one group. Use clear, specific names.
+Tabs: ${JSON.stringify(tabList)}`;
+
+  let res;
+  try {
+    res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiApiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.1, responseMimeType: 'application/json' },
+        }),
+      }
+    );
+  } catch (e) {
+    return { ok: false, error: 'Network error: ' + e.message };
+  }
+
+  if (!res.ok) {
+    const errData = await res.json().catch(() => ({}));
+    return { ok: false, error: errData.error?.message || `HTTP ${res.status}` };
+  }
+
+  const data = await res.json();
+  const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+  let groupMap;
+  try {
+    groupMap = JSON.parse(text);
+  } catch {
+    // Gemini sometimes wraps JSON in a code block — strip it
+    const m = text.match(/```(?:json)?\s*([\s\S]*?)```/);
+    try { groupMap = JSON.parse(m?.[1] || text); }
+    catch { return { ok: false, error: 'AI returned invalid JSON' }; }
+  }
+
+  for (const [label, tabIds] of Object.entries(groupMap)) {
+    const validIds = tabIds.filter(id => validTabs.some(t => t.id === id));
+    if (!validIds.length) continue;
+    try {
+      const existingGroups = await chrome.tabGroups.query({ windowId });
+      const existing = existingGroups.find(g => g.title === label);
+      if (existing) {
+        await chrome.tabs.group({ tabIds: validIds, groupId: existing.id });
+      } else {
+        const gid = await chrome.tabs.group({ tabIds: validIds });
+        await chrome.tabGroups.update(gid, { title: label, color: colorFor(label) });
+      }
+    } catch (_) { /* skip ungroupable tabs */ }
+  }
+
+  return { ok: true };
+}
+
 // ── GitHub PR info ───────────────────────────────────────────────────────────
 
 async function fetchPRInfo(url) {
@@ -483,6 +553,9 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     switch (msg.type) {
       case 'GET_MY_TAB_ID':       return { tabId };
       case 'GROUP_ALL_TABS':      return groupAllTabs(msg.windowId);
+      case 'AI_GROUP_TABS':       return aiGroupTabs(msg.windowId);
+      case 'SAVE_GEMINI_KEY':     await chrome.storage.local.set({ geminiApiKey: msg.key }); return { ok: true };
+      case 'GET_GEMINI_KEY':      { const { geminiApiKey = '' } = await chrome.storage.local.get('geminiApiKey'); return { key: geminiApiKey }; }
       case 'SAVE_SESSION':        return saveSession(msg.name, msg.windowId);
       case 'GET_SESSIONS':        { const { sessions = [] } = await chrome.storage.local.get('sessions'); return sessions; }
       case 'RESTORE_SESSION':     return restoreSession(msg.sessionId);

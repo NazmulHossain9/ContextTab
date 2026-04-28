@@ -33,8 +33,20 @@
       <section id="tab-groups" class="tab-panel active">
         <div class="panel-toolbar">
           <span class="panel-title">Tab Groups</span>
-          <button id="btn-autogroup" class="btn-primary">⚡ Auto-group</button>
+          <div class="toolbar-actions">
+            <button id="btn-aigroup" class="btn-ai">✨ AI Group</button>
+            <button id="btn-autogroup" class="btn-primary">⚡ Auto-group</button>
+          </div>
         </div>
+        <div id="api-key-section" class="api-key-section" style="display:none">
+          <div class="api-key-label">Gemini API Key</div>
+          <div class="api-key-row">
+            <input id="gemini-key-input" type="password" placeholder="AIza…" autocomplete="off">
+            <button id="btn-save-key" class="btn-primary">Save</button>
+          </div>
+          <div class="api-key-hint">Free key at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a></div>
+        </div>
+        <div id="ai-status" class="ai-status" style="display:none"></div>
         <div id="groups-list" class="list-container">
           <div class="empty-state">Loading groups…</div>
         </div>
