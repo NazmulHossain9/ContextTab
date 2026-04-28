@@ -1,4 +1,4 @@
-# CLAUDE.md — ContextTab Chrome Extension
+# CONTEXT_TAB.md — ContextTab Chrome Extension
 
 ## Architecture
 
